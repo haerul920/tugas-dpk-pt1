@@ -25,6 +25,4 @@ untuk menjalankan main.exe 3 (KRS)
 
 jalankan satu per satu main.exe
 
-<marquee style="color: green; font-size: 24px; font-family: 'Minecraft', 'Press Start 2P', monospace;">
-  thank you
-</marquee>
+![Thank You](https://readme-typing-svg.demolab.com?font=Press+Start+2P&size=28&pause=1000&color=00FF00&center=true&vCenter=true&width=435&lines=thank+you)
