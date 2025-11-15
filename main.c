@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
             printf("--- MODUL INPUT MATAKULIAH ---\n");
             Matakuliah *daftar_mk = inputDataMatakuliah(&jumlah);
             simpanMatakuliahKeCSV(daftar_mk, jumlah);
-            free(daftar_mk); // Selalu free memori setelah dipakai
-            bacaDariFileCSV("matakuliah.csv"); // Tampilkan hasil
+            free(daftar_mk); 
+            bacaDariFileCSV("matakuliah.csv"); 
             break;
 
         case 2:
@@ -56,4 +56,5 @@ int main(int argc, char *argv[]) {
     }
 
     return 0;
+
 }
