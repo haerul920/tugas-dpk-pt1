@@ -35,33 +35,41 @@ Proyek ini adalah sistem manajemen akademik sederhana berbasis konsol yang ditul
 
 ---
 
-## 🖼️ Hasil Proyek
+## 📂 Struktur Proyek
 
-Berikut adalah file-file `.csv` yang dihasilkan oleh program.
+Berikut adalah tampilan struktur file dan file-file `.csv` yang dihasilkan oleh program.
 
-<p align="center">
-  <img src="/public/1.png" alt="Struktur Proyek" width="400"/>
-</p>
-
-<p align="center">
-  <img src="/public/2.png" alt="Struktur Proyek" width="400"/>
-</p>
+<details>
+<summary><b><code>matakuliah.csv</code> (Tampilan File Matakuliah di Excel)</b></summary>
 
 <p align="center">
-  <img src="/public/3.png" alt="Struktur Proyek" width="400"/>
+<img src="public/matakuliah.png" alt="matakuliah">
 </p>
+</details>
+
+<details>
+<summary><b><code>mahasiswa.csv</code> (Tampilan File Mahasiswa di Excel)</b></summary>
 
 <p align="center">
-  <img src="/public/4.png" alt="Struktur Proyek" width="400"/>
+<img src="public/mahasiswa.png" alt="mahasiswa">
 </p>
+</details>
+
+<details>
+<summary><b><code>krs.csv</code> (Tampilan File KRS di Excel)</b></summary>
 
 <p align="center">
-  <img src="/public/5.png" alt="Struktur Proyek" width="400"/>
+<img src="public/matakuliah.png" alt="matakuliah">
 </p>
+</details>
+
+<details>
+<summary><b><code>KRS_D121251094.csv</code> (Tampilan File KRS milik Mahasiswa di Excel)</b></summary>
 
 <p align="center">
-  <img src="/public/6.png" alt="Struktur Proyek" width="400"/>
+<img src="public/d121251094.png" alt="KRS milik Mahasiswa">
 </p>
+</details>
 
 ---
 
