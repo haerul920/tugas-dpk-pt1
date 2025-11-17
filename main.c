@@ -9,9 +9,12 @@
 void tampilkanUsage(char *namaProgram) {
     printf("Usage: %s [PILIHAN]\n", namaProgram);
     printf("Pilihan:\n");
-    printf("  1 : Menjalankan Modul Input Matakuliah (output: matakuliah.csv)\n");
-    printf("  2 : Menjalankan Modul Input Mahasiswa (output: mahasiswa.csv)\n");
-    printf("  3 : Menjalankan Modul Input KRS (output: krs.csv)\n");
+    printf("  1 : Tambah Data Matakuliah (matakuliah.csv)\n");
+    printf("  2 : Tambah Data Mahasiswa (mahasiswa.csv)\n");
+    printf("  3 : Tambah Data KRS (krs.csv)\n");
+    printf("  4 : Cari KRS Mahasiswa (berdasarkan NIM atau Nama)\n");
+    printf("  5 : Hapus Data Mahasiswa (berdasarkan NIM)\n");
+    printf("  6 : Tampilkan isi file (Debug)\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -23,30 +26,55 @@ int main(int argc, char *argv[]) {
     }
 
     int pilihan = atoi(argv[1]);
-    int jumlah;
+
+    // Inisialisasi file: Buat file + header jika belum ada
+    // Ini PENTING agar file tidak rusak saat mode "append"
+    inisialisasiFile("matakuliah.csv", "ID_MK,Nama,SKS\n");
+    inisialisasiFile("mahasiswa.csv", "NIM,Nama,Prodi,Fakultas,Angkatan,IPK\n");
+    inisialisasiFile("krs.csv", "NIM_Mahasiswa,ID_Matakuliah\n");
 
     switch (pilihan) {
         case 1:
-            printf("--- MODUL INPUT MATAKULIAH ---\n");
-            Matakuliah *daftar_mk = inputDataMatakuliah(&jumlah);
-            simpanMatakuliahKeCSV(daftar_mk, jumlah);
-            free(daftar_mk); 
-            bacaDariFileCSV("matakuliah.csv"); 
+            printf("--- MODUL TAMBAH MATAKULIAH ---\n");
+            tambahDataMatakuliah();
             break;
 
         case 2:
-            printf("--- MODUL INPUT MAHASISWA ---\n");
-            Mahasiswa *daftar_mhs = inputDataMahasiswa(&jumlah);
-            simpanMahasiswaKeCSV(daftar_mhs, jumlah);
-            free(daftar_mhs);
-            bacaDariFileCSV("mahasiswa.csv"); 
+            printf("--- MODUL TAMBAH MAHASISWA ---\n");
+            tambahDataMahasiswa();
+            break;
 
         case 3:
-            printf("--- MODUL INPUT KRS ---\n");
-            KRS *daftar_krs = inputDataKRS(&jumlah);
-            simpanKRSKeCSV(daftar_krs, jumlah);
-            free(daftar_krs);
-            bacaDariFileCSV("krs.csv"); 
+            printf("--- MODUL TAMBAH KRS ---\n");
+            tambahDataKRS();
+            break;
+
+        case 4:
+            printf("--- MODUL CARI KRS MAHASISWA ---\n");
+            cariKRSMahasiswa();
+            break;
+
+        case 5:
+            printf("--- MODUL HAPUS MAHASISWA ---\n");
+            hapusDataMahasiswa();
+            break;
+        
+        case 6: // Fitur tambahan untuk melihat isi file mentah
+            printf("--- MODUL TAMPILKAN DATA FILE ---\n");
+            printf("Pilih file untuk ditampilkan:\n");
+            printf("  1. mahasiswa.csv\n");
+            printf("  2. matakuliah.csv\n");
+            printf("  3. krs.csv\n");
+            printf("Pilihan: ");
+            int pilFile;
+            scanf("%d", &pilFile);
+            bersihkanBufferInput();
+            switch (pilFile) {
+                case 1: tampilkanDataFile("mahasiswa.csv"); break;
+                case 2: tampilkanDataFile("matakuliah.csv"); break;
+                case 3: tampilkanDataFile("krs.csv"); break;
+                default: printf("Pilihan tidak valid.\n");
+            }
             break;
 
         default:
@@ -56,5 +84,4 @@ int main(int argc, char *argv[]) {
     }
 
     return 0;
-
 }
