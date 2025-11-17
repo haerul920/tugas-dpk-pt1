@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=1000&color=00BFFF&center=true&vCenter=true&width=600&lines=Sebuah+proyek+konsol+C+untuk+mengelola+data+Mahasiswa%2C+Matakuliah%2C+dan+KRS" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=1000&color=00BFFF&center=true&vCenter=true&width=600&lines=Sebuah+proyek+konsol+C+untuk+mengelola+data" alt="Typing SVG" />
 </h3>
 
 <p align="center">
@@ -35,9 +35,9 @@ Proyek ini adalah sistem manajemen akademik sederhana berbasis konsol yang ditul
 
 ---
 
-## 📂 Struktur Proyek
+## 🖼️ Hasil Proyek
 
-Berikut adalah tampilan struktur file dan file-file `.csv` yang dihasilkan oleh program.
+Berikut adalah file-file `.csv` yang dihasilkan oleh program.
 
 <p align="center">
   <img src="/public/1.png" alt="Struktur Proyek" width="400"/>
@@ -92,3 +92,53 @@ Jalankan program dari terminal dengan perintah `./main.exe` diikuti dengan nomor
 ./main.exe 5  # ❌ Hapus Data Mahasiswa
 ./main.exe 6  # 🐞 Tampilkan isi file (Mode Debug)
 ```
+
+🖼️ Galeri / Contoh Penggunaan
+Klik untuk melihat contoh output dari setiap perintah:
+
+<details>
+<summary><b><code>./main.exe 1</code> (Tambah Matakuliah)</b></summary>
+
+<p align="center">
+<img src="public/1.png" alt="Contoh main.exe 1">
+</p>
+</details>
+<details>
+<summary><b><code>./main.exe 2</code> (Tambah Mahasiswa)</b></summary>
+
+<p align="center">
+<img src="public/2.png" alt="Contoh main.exe 2">
+</p>
+</details>
+<details>
+<summary><b><code>./main.exe 3</code> (Tambah KRS)</b></summary>
+
+<p align="center">
+<img src="public/3.png" alt="Contoh main.exe 3">
+</p>
+</details>
+<details>
+<summary><b><code>./main.exe 4</code> (Cari KRS & Ekspor .csv)</b></summary>
+
+<p>Perintah ini akan menampilkan data di konsol dan otomatis membuat file laporan CSV seperti <code>KRS_D121251094.csv</code>.</p>
+<p align="center">
+<img src="public/4.png" alt="Contoh main.exe 4">
+</p>
+</details>
+<details>
+<summary><b><code>./main.exe 5</code> (Hapus Mahasiswa)</b></summary>
+
+<p align="center">
+<img src="public/5.png" alt="Contoh main.exe 5">
+</p>
+</details>
+<details>
+<summary><b><code>./main.exe 6</code> (Tampilkan File Debug)</b></summary>
+
+<p align="center">
+<img src="public/6.png" alt="Contoh main.exe 6">
+</p>
+</details>
+<p align="center">
+<img src="https://readme-typing-svg.demolab.com?font=Press+Start+2P&size=28&pause=1000&color=00FF00&center=true&vCenter=true&width=435&lines=Thank+You" />
+</p>
