@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <string.h>
 
-#ifndef filedata_h 
-#include "filedata.h"   
+#ifndef filedata_h
+#include "filedata.h"
 #endif
 
 void tampilkanUsage(char *namaProgram) {
@@ -27,8 +27,6 @@ int main(int argc, char *argv[]) {
 
     int pilihan = atoi(argv[1]);
 
-    // Inisialisasi file: Buat file + header jika belum ada
-    // Ini PENTING agar file tidak rusak saat mode "append"
     inisialisasiFile("matakuliah.csv", "ID_MK,Nama,SKS\n");
     inisialisasiFile("mahasiswa.csv", "NIM,Nama,Prodi,Fakultas,Angkatan,IPK\n");
     inisialisasiFile("krs.csv", "NIM_Mahasiswa,ID_Matakuliah\n");
@@ -59,7 +57,7 @@ int main(int argc, char *argv[]) {
             hapusDataMahasiswa();
             break;
         
-        case 6: // Fitur tambahan untuk melihat isi file mentah
+        case 6:
             printf("--- MODUL TAMPILKAN DATA FILE ---\n");
             printf("Pilih file untuk ditampilkan:\n");
             printf("  1. mahasiswa.csv\n");

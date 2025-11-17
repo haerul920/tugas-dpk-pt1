@@ -6,43 +6,36 @@
 #include "filedata.h"
 #endif
 
-// Membersihkan buffer stdin (wajib setelah scanf)
 void bersihkanBufferInput() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// Inisialisasi file: Cek jika file ada. Jika tidak, buat dengan header.
 void inisialisasiFile(const char *namaFile, const char *header) {
-    FILE *fp = fopen(namaFile, "r"); // Coba baca dulu
+    FILE *fp = fopen(namaFile, "r");
     if (fp == NULL) {
-        // File tidak ada, buat baru dengan mode "w" (write)
         fp = fopen(namaFile, "w");
         if (fp == NULL) {
             fprintf(stderr, "Error: Gagal membuat file '%s'.\n", namaFile);
             exit(1);
         }
-        fprintf(fp, "%s", header); // Tulis header
+        fprintf(fp, "%s", header);
         printf("Info: File '%s' tidak ditemukan, file baru dibuat dengan header.\n", namaFile);
     }
-    // Jika file ada (fp != NULL), tidak perlu melakukan apa-apa.
     fclose(fp);
 }
 
-
-// Cek duplikat data pada kolom tertentu (0 = kolom pertama)
-// Mengembalikan 1 jika duplikat ditemukan, 0 jika tidak.
 int cekDuplikat(const char *namaFile, const char *key, int kolom) {
     FILE *fp = fopen(namaFile, "r");
     if (!fp) {
-        return 0; // File tidak ada, pasti tidak duplikat
+        return 0;
     }
 
     char baris[512];
-    fgets(baris, sizeof(baris), fp); // Lewati baris header
+    fgets(baris, sizeof(baris), fp);
 
     while (fgets(baris, sizeof(baris), fp)) {
-        baris[strcspn(baris, "\n")] = '\0'; // Hapus newline
+        baris[strcspn(baris, "\n")] = '\0';
         char temp_baris[512];
         strcpy(temp_baris, baris);
 
@@ -51,23 +44,22 @@ int cekDuplikat(const char *namaFile, const char *key, int kolom) {
         while (token != NULL) {
             if (i == kolom && strcmp(token, key) == 0) {
                 fclose(fp);
-                return 1; // Duplikat ditemukan
+                return 1;
             }
             token = strtok(NULL, ",");
             i++;
         }
     }
     fclose(fp);
-    return 0; // Tidak ada duplikat
+    return 0;
 }
 
-// Cek duplikat khusus untuk file KRS (pasangan NIM & ID_MK)
 int cekDuplikatKRS(const char *nim, const char *id_mk) {
     FILE *fp = fopen("krs.csv", "r");
     if (!fp) return 0;
 
     char baris[256];
-    fgets(baris, sizeof(baris), fp); // Lewati header
+    fgets(baris, sizeof(baris), fp);
 
     while (fgets(baris, sizeof(baris), fp)) {
         baris[strcspn(baris, "\n")] = '\0';
@@ -80,7 +72,7 @@ int cekDuplikatKRS(const char *nim, const char *id_mk) {
         if (nim_csv && id_mk_csv) {
             if (strcmp(nim_csv, nim) == 0 && strcmp(id_mk_csv, id_mk) == 0) {
                 fclose(fp);
-                return 1; // Duplikat ditemukan
+                return 1;
             }
         }
     }
@@ -88,8 +80,6 @@ int cekDuplikatKRS(const char *nim, const char *id_mk) {
     return 0;
 }
 
-
-// Fungsi untuk menampilkan isi file
 void tampilkanDataFile(const char *namaFile) {
     FILE *fp = fopen(namaFile, "r");
     if (!fp) {
@@ -106,7 +96,6 @@ void tampilkanDataFile(const char *namaFile) {
     fclose(fp);
 }
 
-// Fungsi REVISI: Tambah Matakuliah (Batch input)
 void tambahDataMatakuliah() {
     int jumlah;
     printf("Masukkan jumlah matakuliah yang ingin diinput: ");
@@ -128,10 +117,9 @@ void tambahDataMatakuliah() {
         fgets(mk.id_mk, MAX_MK_ID_LEN, stdin);
         mk.id_mk[strcspn(mk.id_mk, "\n")] = '\0'; 
 
-        // Cek Duplikat
         if (cekDuplikat("matakuliah.csv", mk.id_mk, 0)) {
             printf("Error: ID Matakuliah '%s' sudah terdaftar. Data #%d dibatalkan.\n", mk.id_mk, i + 1);
-            continue; // Lanjut ke data berikutnya
+            continue;
         }
 
         printf("Nama   : ");
@@ -150,7 +138,6 @@ void tambahDataMatakuliah() {
     printf("\nProses selesai. Berhasil menambahkan %d dari %d data matakuliah.\n", sukses, jumlah);
 }
 
-// Fungsi REVISI: Tambah Mahasiswa (Batch input)
 void tambahDataMahasiswa() {
     int jumlah;
     printf("Masukkan jumlah mahasiswa yang ingin diinput: ");
@@ -172,7 +159,6 @@ void tambahDataMahasiswa() {
         fgets(mhs.nim, MAX_NIM_LEN, stdin);
         mhs.nim[strcspn(mhs.nim, "\n")] = '\0';
 
-        // Cek Duplikat
         if (cekDuplikat("mahasiswa.csv", mhs.nim, 0)) {
             printf("Error: NIM '%s' sudah terdaftar. Data #%d dibatalkan.\n", mhs.nim, i + 1);
             continue;
@@ -207,9 +193,7 @@ void tambahDataMahasiswa() {
     printf("\nProses selesai. Berhasil menambahkan %d dari %d data mahasiswa.\n", sukses, jumlah);
 }
 
-// Fungsi REVISI: Tambah KRS (Batch input)
 void tambahDataKRS() {
-    // Tampilkan data yang ada untuk membantu input (hanya sekali)
     tampilkanDataFile("mahasiswa.csv");
     tampilkanDataFile("matakuliah.csv");
 
@@ -237,13 +221,11 @@ void tambahDataKRS() {
         fgets(krs.id_matakuliah, MAX_MK_ID_LEN, stdin);
         krs.id_matakuliah[strcspn(krs.id_matakuliah, "\n")] = '\0';
 
-        // Cek duplikat KRS
         if (cekDuplikatKRS(krs.nim_mahasiswa, krs.id_matakuliah)) {
             printf("Error: Entri KRS (NIM: %s, MK: %s) sudah ada. Data #%d dibatalkan.\n", krs.nim_mahasiswa, krs.id_matakuliah, i + 1);
             continue;
         }
 
-        // (Opsional) Cek apakah NIM dan ID_MK benar-benar ada di file master
         if (!cekDuplikat("mahasiswa.csv", krs.nim_mahasiswa, 0)) {
             printf("Warning: NIM '%s' tidak ditemukan di data mahasiswa.\n", krs.nim_mahasiswa);
         }
@@ -259,21 +241,17 @@ void tambahDataKRS() {
     printf("\nProses selesai. Berhasil menambahkan %d dari %d data KRS.\n", sukses, jumlah);
 }
 
-
-// Fungsi REVISI: Hapus Mahasiswa (dengan Konfirmasi)
 void hapusDataMahasiswa() {
     char nim_hapus[MAX_NIM_LEN];
     printf("Masukkan NIM mahasiswa yang akan dihapus: ");
     fgets(nim_hapus, MAX_NIM_LEN, stdin);
     nim_hapus[strcspn(nim_hapus, "\n")] = '\0';
 
-    // --- REVISI: Cek dulu datanya ada atau tidak ---
     if (!cekDuplikat("mahasiswa.csv", nim_hapus, 0)) {
         printf("Error: Data mahasiswa dengan NIM '%s' tidak ditemukan.\n", nim_hapus);
-        return; // Langsung keluar
+        return;
     }
 
-    // --- REVISI: Tambahkan Konfirmasi ---
     char konfirmasi;
     printf("\nPERINGATAN: Anda akan menghapus data mahasiswa dengan NIM '%s'.\n", nim_hapus);
     printf("Data KRS yang terkait dengan NIM ini TIDAK akan terhapus otomatis.\n");
@@ -283,11 +261,9 @@ void hapusDataMahasiswa() {
 
     if (konfirmasi != 'y' && konfirmasi != 'Y') {
         printf("Penghapusan dibatalkan.\n");
-        return; // Keluar dari fungsi
+        return;
     }
-    // --- Akhir Revisi ---
 
-    // Lanjutkan proses penghapusan jika konfirmasi 'y'
     FILE *fpIn = fopen("mahasiswa.csv", "r");
     if (!fpIn) {
         printf("Error: Gagal membuka 'mahasiswa.csv'\n");
@@ -302,50 +278,42 @@ void hapusDataMahasiswa() {
     }
 
     char baris[512];
-    
-    // Salin header
+
     fgets(baris, sizeof(baris), fpIn);
     fprintf(fpOut, "%s", baris);
 
-    // Baca dan proses sisa file
     while (fgets(baris, sizeof(baris), fpIn)) {
         char temp_baris[512];
-        strcpy(temp_baris, baris); // Salin baris asli untuk ditulis ulang
-
+        strcpy(temp_baris, baris);
         char *nim_csv = strtok(baris, ","); 
 
         if (strcmp(nim_csv, nim_hapus) == 0) {
-            // Ini adalah data yang akan dihapus, jadi JANGAN salin
         } else {
-            fprintf(fpOut, "%s", temp_baris); // Salin baris yang tidak cocok
+            fprintf(fpOut, "%s", temp_baris);
         }
     }
 
     fclose(fpIn);
     fclose(fpOut);
 
-    remove("mahasiswa.csv"); // Hapus file lama
-    rename("temp_mhs.csv", "mahasiswa.csv"); // Ubah nama file temp
+    remove("mahasiswa.csv");
+    rename("temp_mhs.csv", "mahasiswa.csv");
     
     printf("Data mahasiswa dengan NIM '%s' berhasil dihapus.\n", nim_hapus);
 }
 
-
-// --- FUNGSI UNTUK CARI KRS (TIDAK BERUBAH) ---
-
-// 1. Fungsi untuk memuat semua data Mahasiswa ke memory
 int loadMahasiswa(Mahasiswa **data, int *count) {
     FILE *fp = fopen("mahasiswa.csv", "r");
     if (!fp) return 0;
 
     char baris[512];
     *count = 0;
-    fgets(baris, sizeof(baris), fp); // Lewati header
-    while (fgets(baris, sizeof(baris), fp)) (*count)++; // Hitung jumlah data
+    fgets(baris, sizeof(baris), fp);
+    while (fgets(baris, sizeof(baris), fp)) (*count)++;
 
     if (*count == 0) {
         fclose(fp);
-        return 0; // File kosong
+        return 0;
     }
 
     *data = (Mahasiswa*) malloc(*count * sizeof(Mahasiswa));
@@ -355,8 +323,8 @@ int loadMahasiswa(Mahasiswa **data, int *count) {
         return 0;
     }
 
-    rewind(fp); // Kembali ke awal file
-    fgets(baris, sizeof(baris), fp); // Lewati header lagi
+    rewind(fp);
+    fgets(baris, sizeof(baris), fp);
     int i = 0;
     while (fgets(baris, sizeof(baris), fp)) {
         sscanf(baris, "%[^,],%[^,],%[^,],%[^,],%d,%f",
@@ -372,19 +340,18 @@ int loadMahasiswa(Mahasiswa **data, int *count) {
     return 1;
 }
 
-// 2. Fungsi untuk memuat semua data Matakuliah ke memory
 int loadMatakuliah(Matakuliah **data, int *count) {
     FILE *fp = fopen("matakuliah.csv", "r");
     if (!fp) return 0;
 
     char baris[256];
     *count = 0;
-    fgets(baris, sizeof(baris), fp); // Header
+    fgets(baris, sizeof(baris), fp);
     while (fgets(baris, sizeof(baris), fp)) (*count)++;
 
     if (*count == 0) {
         fclose(fp);
-        return 0; // File kosong
+        return 0;
     }
 
     *data = (Matakuliah*) malloc(*count * sizeof(Matakuliah));
@@ -395,7 +362,7 @@ int loadMatakuliah(Matakuliah **data, int *count) {
     }
 
     rewind(fp);
-    fgets(baris, sizeof(baris), fp); // Header
+    fgets(baris, sizeof(baris), fp);
     int i = 0;
     while (fgets(baris, sizeof(baris), fp)) {
         sscanf(baris, "%[^,],%[^,],%d",
@@ -408,19 +375,18 @@ int loadMatakuliah(Matakuliah **data, int *count) {
     return 1;
 }
 
-// 3. Fungsi untuk memuat semua data KRS ke memory
 int loadKRS(KRS **data, int *count) {
     FILE *fp = fopen("krs.csv", "r");
     if (!fp) return 0;
 
     char baris[256];
     *count = 0;
-    fgets(baris, sizeof(baris), fp); // Header
+    fgets(baris, sizeof(baris), fp);
     while (fgets(baris, sizeof(baris), fp)) (*count)++;
 
     if (*count == 0) {
         fclose(fp);
-        return 0; // File kosong
+        return 0;
     }
 
     *data = (KRS*) malloc(*count * sizeof(KRS));
@@ -431,7 +397,7 @@ int loadKRS(KRS **data, int *count) {
     }
 
     rewind(fp);
-    fgets(baris, sizeof(baris), fp); // Header
+    fgets(baris, sizeof(baris), fp);
     int i = 0;
     while (fgets(baris, sizeof(baris), fp)) {
         sscanf(baris, "%[^,],%[^\n]",
@@ -443,14 +409,7 @@ int loadKRS(KRS **data, int *count) {
     return 1;
 }
 
-// 
-// =========================================================================
-// == FUNGSI INI ADALAH SATU-SATUNYA YANG BERUBAH PADA REVISI INI ==
-// =========================================================================
-// 
-// 4. Fungsi utama PENCARIAN KRS (REVISI: Tambah output file)
 void cariKRSMahasiswa() {
-    // Muat semua data dari 3 file CSV
     Mahasiswa *mhs_data;
     int mhs_count;
     Matakuliah *mk_data;
@@ -458,7 +417,6 @@ void cariKRSMahasiswa() {
     KRS *krs_data;
     int krs_count;
 
-    // Cek dan muat data (return jika gagal)
     if (!loadMahasiswa(&mhs_data, &mhs_count)) {
         printf("Error: Gagal memuat 'mahasiswa.csv'. File mungkin kosong atau rusak.\n");
         return;
@@ -482,90 +440,68 @@ void cariKRSMahasiswa() {
 
     int found = 0;
     for (int i = 0; i < mhs_count; i++) {
-        // Cari berdasarkan NIM (cocok persis) ATAU Nama (cocok sebagian)
         if (strcmp(mhs_data[i].nim, searchTerm) == 0 || strstr(mhs_data[i].nama, searchTerm) != NULL) {
             found = 1;
-            
-            // --- [REVISI] BUAT NAMA FILE DAN BUKA FILE ---
+
             char namaFile[256];
-            sprintf(namaFile, "KRS_%s.csv", mhs_data[i].nim); // Nama file: KRS_NIM.csv
+            sprintf(namaFile, "KRS_%s.csv", mhs_data[i].nim);
             
             FILE *fpOut = fopen(namaFile, "w");
             if (fpOut == NULL) {
                 printf("Error: Gagal membuat file output '%s'\n", namaFile);
-                // (Jangan hentikan program, tampilkan saja di console)
             } else {
-                // Tulis info mahasiswa di file
                 fprintf(fpOut, "NIM,%s\n", mhs_data[i].nim);
                 fprintf(fpOut, "Nama,%s\n", mhs_data[i].nama);
                 fprintf(fpOut, "Fakultas,%s\n", mhs_data[i].fakultas);
                 fprintf(fpOut, "Prodi,%s\n", mhs_data[i].prodi);
                 fprintf(fpOut, "Angkatan,%d\n", mhs_data[i].tahun_masuk);
                 fprintf(fpOut, "IPK,%.2f\n", mhs_data[i].ipk);
-                fprintf(fpOut, "\n"); // Baris kosong
-                // Tulis header KRS
+                fprintf(fpOut, "\n");
                 fprintf(fpOut, "Kode,Nama Matakuliah,SKS\n");
             }
-            // --- [AKHIR REVISI] ---
-
-
-            // --- TAMPILKAN DATA MAHASISWA (di Console) ---
             printf("\n--- Data Mahasiswa Ditemukan ---\n");
             printf("NIM       : %s\n", mhs_data[i].nim);
             printf("Nama      : %s\n", mhs_data[i].nama);
             printf("Fak/Prodi : %s / %s\n", mhs_data[i].fakultas, mhs_data[i].prodi);
             printf("Angkatan  : %d\n", mhs_data[i].tahun_masuk);
             printf("IPK       : %.2f\n", mhs_data[i].ipk);
-
-            // --- TAMPILKAN DATA KRS (di Console) ---
             printf("\n--- Daftar Matakuliah (KRS) ---\n");
             printf("----------------------------------------------------------------------\n");
             printf("%-15s %-40s %s\n", "Kode", "Nama Matakuliah", "SKS");
             printf("----------------------------------------------------------------------\n");
 
             int total_sks = 0;
-            // Cari data KRS yang cocok dengan NIM mahasiswa ini
             for (int j = 0; j < krs_count; j++) {
                 if (strcmp(krs_data[j].nim_mahasiswa, mhs_data[i].nim) == 0) {
-                    // Jika cocok, cari detail Matakuliah-nya
                     for (int k = 0; k < mk_count; k++) {
                         if (strcmp(mk_data[k].id_mk, krs_data[j].id_matakuliah) == 0) {
-                            
-                            // Tampilkan di console
+
                             printf("%-15s %-40s %d\n",
                                    mk_data[k].id_mk,
                                    mk_data[k].nama,
                                    mk_data[k].sks);
-                            
-                            // --- [REVISI] TULIS KE FILE CSV ---
                             if (fpOut != NULL) {
                                 fprintf(fpOut, "%s,%s,%d\n",
                                         mk_data[k].id_mk,
                                         mk_data[k].nama,
                                         mk_data[k].sks);
                             }
-                            // --- [AKHIR REVISI] ---
 
                             total_sks += mk_data[k].sks;
-                            break; // Keluar dari loop 'k' (matakuliah)
+                            break;
                         }
                     }
                 }
             }
-            
-            // Tampilkan Total SKS (di Console)
+
             printf("----------------------------------------------------------------------\n");
             printf("%-56s Total SKS: %d\n", "", total_sks);
-            
-            // --- [REVISI] TUTUP FILE DAN TULIS TOTAL SKS ---
             if (fpOut != NULL) {
                 fprintf(fpOut, "\nTotal SKS,%d\n", total_sks);
                 fclose(fpOut);
                 printf("\n[Info] Data KRS juga telah disimpan ke file: %s\n", namaFile);
             }
-            // --- [AKHIR REVISI] ---
-            
-            printf("\n"); // Spasi antar mahasiswa jika hasil pencarian > 1
+            printf("\n");
         }
     }
 
@@ -573,7 +509,6 @@ void cariKRSMahasiswa() {
         printf("Data mahasiswa dengan NIM atau Nama '%s' tidak ditemukan.\n", searchTerm);
     }
 
-    // Jangan lupa bebaskan memori!
     free(mhs_data);
     free(mk_data);
     free(krs_data);
