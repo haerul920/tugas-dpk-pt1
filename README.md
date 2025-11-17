@@ -40,7 +40,27 @@ Proyek ini adalah sistem manajemen akademik sederhana berbasis konsol yang ditul
 Berikut adalah tampilan struktur file dan file-file `.csv` yang dihasilkan oleh program.
 
 <p align="center">
-  <img src="image_61b0eb.png" alt="Struktur Proyek" width="400"/>
+  <img src="/public/1.png" alt="Struktur Proyek" width="400"/>
+</p>
+
+<p align="center">
+  <img src="/public/2.png" alt="Struktur Proyek" width="400"/>
+</p>
+
+<p align="center">
+  <img src="/public/3.png" alt="Struktur Proyek" width="400"/>
+</p>
+
+<p align="center">
+  <img src="/public/4.png" alt="Struktur Proyek" width="400"/>
+</p>
+
+<p align="center">
+  <img src="/public/5.png" alt="Struktur Proyek" width="400"/>
+</p>
+
+<p align="center">
+  <img src="/public/6.png" alt="Struktur Proyek" width="400"/>
 </p>
 
 ---
