@@ -477,9 +477,9 @@ void cariKRSMahasiswa() {
                         if (strcmp(mk_data[k].id_mk, krs_data[j].id_matakuliah) == 0) {
 
                             printf("%-15s %-40s %d\n",
-                                   mk_data[k].id_mk,
-                                   mk_data[k].nama,
-                                   mk_data[k].sks);
+                                    mk_data[k].id_mk,
+                                    mk_data[k].nama,
+                                    mk_data[k].sks);
                             if (fpOut != NULL) {
                                 fprintf(fpOut, "%s,%s,%d\n",
                                         mk_data[k].id_mk,

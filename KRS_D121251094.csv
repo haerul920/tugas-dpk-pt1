@@ -1,12 +1,13 @@
-NIM,D121251094,
-Nama,Haerul Algifar,
-Fakultas,Teknik,
-Prodi,Teknik Informatika,
-Angkatan,2025,
-IPK,4,
-,,
+NIM,D121251094
+Nama,Haerul Algifar
+Fakultas,Teknik
+Prodi,Teknik Informatika
+Angkatan,2025
+IPK,4.00
+
 Kode,Nama Matakuliah,SKS
 23D12110403,Dasar Listrik dan Elektronika,3
 23H01110103,Matematika Dasar,3
-,,
-Total SKS,6,
+23D12110404,Kalkulus I,3
+
+Total SKS,9
